@@ -217,6 +217,7 @@ number of error that is handled in this API
 - 405: method not allowed
 - 400: bad request 
 - 500: internet server error
+
 these errors return this JSON object as follow:
 {
   "error": 404, 
