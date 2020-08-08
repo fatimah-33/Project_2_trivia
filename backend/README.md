@@ -276,8 +276,6 @@ these errors return this JSON object as follow:
 }  
 ```
 
-
-
 ## Testing
 To run the tests, run
 ```

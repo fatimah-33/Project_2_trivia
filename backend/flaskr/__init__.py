@@ -190,7 +190,7 @@ def create_app(test_config=None):
       category_id = quiz_category['id']
       # if the category is = 0 then bring all the questions, player did not choose any category 
       if category_id == 0:
-        questions = Question.query.filter(~Question.id.in_(previous_questions)).first()
+        questions = Question.query.order_by(func.random()).filter(~Question.id.in_(previous_questions)).first()
         formated_questions = questions.format()
         return jsonify({
         'success' : True,
