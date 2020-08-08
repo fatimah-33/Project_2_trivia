@@ -211,19 +211,21 @@ Here are some examples of the endpoints used in this API
 
 ## Erorr Handling 
 
-number of error that is handled in this API 
+following are number of error that is handled in this API, these errors return this JSON object as follow:
+```
+{
+  "error": 404, 
+  "message": "tpage not found", 
+  "success": false
+}  
+```
 - 404: not found page 
 - 422: unproccessable element
 - 405: method not allowed
 - 400: bad request 
 - 500: internet server error
 
-these errors return this JSON object as follow:
-{
-  "error": 404, 
-  "message": "tpage not found", 
-  "success": false
-} 
+
 
 ## Testing
 To run the tests, run
