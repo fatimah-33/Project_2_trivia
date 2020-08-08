@@ -191,18 +191,14 @@ def create_app(test_config=None):
       # if the category is = 0 then bring all the questions, player did not choose any category 
       if category_id == 0:
         questions = Question.query.filter(~Question.id.in_(previous_questions)).first()
-        formated_questions = [question.format() for question in questions]
+        formated_questions = questions.format()
         return jsonify({
         'success' : True,
         'question' : formated_questions
         })
       else:
         questions = Question.query.order_by(func.random()).filter(Question.category == category_id,~Question.id.in_(previous_questions)).first()
-        formated_questions = [question.format() for question in questions]
-        # new_questions_not_anwsered = []
-        # for question_unasked in formated_questions:
-        #   if question_unasked not in previous_questions:
-        #     new_questions_not_anwsered.append(question_unasked)
+        formated_questions = questions.format() 
         return jsonify({
         'success' : True,
         'question' : formated_questions

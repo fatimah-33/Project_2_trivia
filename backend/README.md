@@ -245,8 +245,7 @@ Here are some examples of the endpoints used in this API
    - return success value
 ```
 {
- 
-  "questions": 
+  "question": 
     {
       "answer": "Two", 
       "category": "1", 
