@@ -211,7 +211,9 @@ Here are some examples of the endpoints used in this API
 
 ## Erorr Handling 
 
-following are number of error that is handled in this API, these errors return this JSON object as follow:
+following are number of error that is handled in this API, 
+these errors return this JSON object as follow:
+
 ```
 {
   "error": 404, 
