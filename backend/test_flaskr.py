@@ -64,12 +64,12 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['message'], 'page not found')
 
     def test_delete_question(self):
-        res = self.client().delete('/questions/41')
+        res = self.client().delete('/questions/1')
         data = json.loads(res.data)
-        question = Question.query.filter(Question.id == 41).one_or_none()
+        question = Question.query.filter(Question.id == 1).one_or_none()
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'],True)
-        self.assertEqual(data['deleted'],41)
+        self.assertEqual(data['deleted'],1)
         self.assertEqual(question,None)
 
     def test_delete_not_exist_question(self):
@@ -171,21 +171,6 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 422)
         self.assertEqual(data['success'],False)
         self.assertEqual(data['message'], 'unproccessable elements')
-    
-
-
-    
-
-
-
-
-    
-
-    
-
-    
-    
-
 
 # Make the tests conveniently executable
 if __name__ == "__main__":

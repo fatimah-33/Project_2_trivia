@@ -38,8 +38,8 @@ def create_app(test_config=None):
   '''
   @app.route('/categories', methods=["GET"])
   def show_categories():
-    categories = Category.query.all()
-    formated_categories = [category.format() for category in categories]
+    categories = Category.query.order_by(Category.type).all()
+    formated_categories = {category.id: category.type for category in categories}
     if len(categories) == 0:
       abort(404)
     else:
@@ -63,10 +63,9 @@ def create_app(test_config=None):
   @app.route('/questions', methods=["GET"])
   def show_questions():
     questions = Question.query.order_by(Question.id).all()
-    categories = Category.query.order_by(Category.type).all()
-    formated_categories = [category.format() for category in categories]
     current_question = question_per_page(request,questions)
-
+    categories = Category.query.order_by(Category.type).all()
+    formated_categories = {category.id: category.type for category in categories}
     if current_question is None:
       abort (404)
     else:
@@ -124,8 +123,6 @@ def create_app(test_config=None):
         })
       except:
         abort (404)
-
-
   '''
   @TODO: 
   Create a POST endpoint to get questions based on a search term. 
@@ -143,13 +140,13 @@ def create_app(test_config=None):
     if search_term == '':
       abort(404)
     else:
-      question_search_result = Question.query.filter(Question.question.ilike('%'+search_term+'%')).all()
+      question_search_result = Question.query.filter(Question.question.ilike(f"%{search_term}%")).all()
       formated_result = [question.format() for question in question_search_result]
       return jsonify({
           'success' : True,
-          'question' : formated_result,
+          'questions' : formated_result,
           'total_questions' : len(question_search_result),
-          'categories': None
+          'current_category': None
         })
   '''
   @TODO: 
@@ -190,25 +187,25 @@ def create_app(test_config=None):
       body = request.get_json()
       previous_questions = body.get('previous_questions','')
       quiz_category = body.get('quiz_category','')
-      category_id = body.get('quiz_category','')['id']
+      category_id = quiz_category['id']
       # if the category is = 0 then bring all the questions, player did not choose any category 
       if category_id == 0:
-        questions = Question.query.order_by(func.random()).all()
+        questions = Question.query.filter(~Question.id.in_(previous_questions)).first()
         formated_questions = [question.format() for question in questions]
         return jsonify({
         'success' : True,
         'question' : formated_questions
         })
       else:
-        questions = Question.query.filter_by(category = str(category_id)).order_by(func.random()).all()
+        questions = Question.query.order_by(func.random()).filter(Question.category == category_id,~Question.id.in_(previous_questions)).first()
         formated_questions = [question.format() for question in questions]
-        new_questions_not_anwsered = []
-        for question_unasked in formated_questions:
-          if question_unasked not in previous_questions:
-            new_questions_not_anwsered.append(question_unasked)
+        # new_questions_not_anwsered = []
+        # for question_unasked in formated_questions:
+        #   if question_unasked not in previous_questions:
+        #     new_questions_not_anwsered.append(question_unasked)
         return jsonify({
         'success' : True,
-        'question' : new_questions_not_anwsered
+        'question' : formated_questions
         })     
     except:
       abort(422)

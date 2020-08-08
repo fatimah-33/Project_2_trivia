@@ -161,18 +161,53 @@ Here are some examples of the endpoints used in this API
    - delete a specific question by id
    - Request Arguments: question id
    - return success value
+```
+   {
+     "success": true,
+     "deleted": question_id
+   }
+```
 4. POST/questions
    - add a new question
    - Request Arguments: take values of the question, answer, difficulty, category id
    - return success value
+```
+   {
+     "success": true,
+     "created" : add_question.id
+   }
+```
 5. POST/questions/search
    - search for questions by search term 
    - Request Arguments: take a string value for the question to be searched
    - return the question, total number of questions, success value 
+```
+{
+  "currentCategory": null, 
+  "questions": [
+    {
+      "answer": "Two", 
+      "category": "1", 
+      "difficulty": 1, 
+      "id": 1, 
+      "question": "one plus one is equal to"
+    }, 
+    {
+      "answer": "three", 
+      "category": "1", 
+      "difficulty": 1, 
+      "id": 2, 
+      "question": "one plus two is equal to"
+    }
+  ], 
+  "success": true, 
+  "totalQuestions": 2
+}
+```
 6. GET/categories/category_id/questions
    - show all questions related to a specific category 
    - Request Arguments: category id
-   - retrun all questions,total number of questions, success value 
+   - retrun all questions,total number of questions, categoty, success value 
    - example of the end point curl http://127.0.0.1:5000/categories/2/questions
 ```
 {
@@ -208,7 +243,20 @@ Here are some examples of the endpoints used in this API
    - show a question to be ansewered by the user 
    - Request Arguments: previous question and the selected category id & type to view a random question 
    - return success value
-
+```
+{
+ 
+  "questions": 
+    {
+      "answer": "Two", 
+      "category": "1", 
+      "difficulty": 1, 
+      "id": 1, 
+      "question": "one plus one is equal to"
+    }
+  "success": true
+}
+```
 ## Erorr Handling 
 
 following are number of error that is handled in this API
