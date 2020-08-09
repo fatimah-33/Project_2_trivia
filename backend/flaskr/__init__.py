@@ -150,12 +150,16 @@ def create_app(test_config=None):
       if category_id == 0:
         questions = Question.query.order_by(func.random()).filter(~Question.id.in_(previous_questions)).first()
       else:
-        questions = Question.query.order_by(func.random()).filter(Question.category == category_id,~Question.id.in_(previous_questions)).first()
-      formated_questions = questions.format() 
+        questions = Question.query.order_by(func.random()).filter(Question.category == category_id,~Question.id.in_(previous_questions)).first()  
+      if questions is None:
+        return jsonify({
+          'success' : True
+          }) 
+      formated_questions = questions.format()
       return jsonify({
-        'success' : True,
-        'question' : formated_questions
-        })     
+          'success' : True,
+          'question' : formated_questions
+          })  
     except:
       abort(422)
   '''
